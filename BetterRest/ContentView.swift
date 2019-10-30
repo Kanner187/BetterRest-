@@ -50,13 +50,11 @@ struct ContentView: View {
                     
                 Section(header: Text("Cups of coffee per day")
                     .font(.headline)) {
-                    Stepper(value: $coffeeAmount, in: 0...10) {
-                        if coffeeAmount == 1 {
-                            Text("\(coffeeAmount) cup")
-                        }else{
-                            Text("\(coffeeAmount) cups")
+                        Picker(selection: $coffeeAmount, label: Text("Cups of coffee per day")) {
+                            ForEach(0..<10){
+                                Text("\($0) cups")
+                            }
                         }
-                    }
                 }
         }
         .navigationBarTitle("BetterRest")
