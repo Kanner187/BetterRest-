@@ -31,37 +31,34 @@ struct ContentView: View {
         NavigationView{
             
             Form{
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("Set time to wake up")
-                        .font(.headline)
-                    DatePicker(selection: $wakeTime , displayedComponents: .hourAndMinute ) {
-                        Text("Wake time")
-                    }
-                    .labelsHidden()
-                    .datePickerStyle(WheelDatePickerStyle())
+                Section(header: Text("Set time to wake up")
+                    .font(.headline)) {
+                DatePicker(selection: $wakeTime , displayedComponents: .hourAndMinute ) {
+                    Text("Wake time")
+                        .labelsHidden()
+                        .datePickerStyle(WheelDatePickerStyle())
                 }
+        }
+                    
                 
-                
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("Desired amount of sleep")
-                        .font(.headline)
+                Section(header: Text("Desired amount of sleep")
+                    .font(.headline)) {
                     Stepper(value: $sleepAmount, in: 4...12 , step: 0.25) {
                         Text("\(sleepAmount , specifier: "%g")")
-                    }
                 }
-                
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("Cups of coffee per day")
-                       .font(.headline)
+        }
+                    
+                Section(header: Text("Cups of coffee per day")
+                    .font(.headline)) {
                     Stepper(value: $coffeeAmount, in: 0...10) {
                         if coffeeAmount == 1 {
-                           Text("\(coffeeAmount) cup")
-                         }else{
-                           Text("\(coffeeAmount) cups")
+                            Text("\(coffeeAmount) cup")
+                        }else{
+                            Text("\(coffeeAmount) cups")
                         }
                     }
                 }
-            }
+        }
         .navigationBarTitle("BetterRest")
         .navigationBarItems(trailing: Button(action: calculateBedTime){
             Image(systemName: "clock.fill")
