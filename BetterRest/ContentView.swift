@@ -11,7 +11,7 @@ import SwiftUI
 struct ContentView: View {
 
     //PROPERTIES
-    @State private var wakeTime = Date()
+    @State private var wakeTime = defaultWakeTime
     @State private var coffeeAmount = 0
     @State private var sleepAmount = 8.0
     
@@ -19,42 +19,56 @@ struct ContentView: View {
     @State private var alertMessage = ""
     @State private var alertTitle = ""
     
+    static var defaultWakeTime: Date {
+        var component = DateComponents()
+        component.hour = 7
+        component.minute = 0
+        return Calendar.current.date(from: component) ?? Date()
+    }
+    
     //BODY DEFINITION
     var body: some View {
         NavigationView{
             
-            VStack(spacing: 10){
-                Text("Set time to wake up")
-                    .font(.headline)
-                DatePicker(selection: $wakeTime , displayedComponents: .hourAndMinute ) {
-                    Text("Wake time")
-                }
-                .labelsHidden()
-                
-                Text("Desired amount of sleep")
-                    .font(.headline
-                )
-                Stepper(value: $sleepAmount, in: 4...12 , step: 0.25) {
-                    Text("\(sleepAmount , specifier: "%g")")
-                }
-                Text("Cups of coffee per day")
-                    .font(.headline)
-                Stepper(value: $coffeeAmount, in: 0...10) {
-                    if coffeeAmount == 1 {
-                        Text("\(coffeeAmount) cup")
-                    }else{
-                      Text("\(coffeeAmount) cups")
+            Form{
+                VStack(alignment: .leading, spacing: 0) {
+                    Text("Set time to wake up")
+                        .font(.headline)
+                    DatePicker(selection: $wakeTime , displayedComponents: .hourAndMinute ) {
+                        Text("Wake time")
                     }
-                    
+                    .labelsHidden()
+                    .datePickerStyle(WheelDatePickerStyle())
+                }
+                
+                
+                VStack(alignment: .leading, spacing: 0) {
+                    Text("Desired amount of sleep")
+                        .font(.headline)
+                    Stepper(value: $sleepAmount, in: 4...12 , step: 0.25) {
+                        Text("\(sleepAmount , specifier: "%g")")
+                    }
+                }
+                
+                VStack(alignment: .leading, spacing: 0) {
+                    Text("Cups of coffee per day")
+                       .font(.headline)
+                    Stepper(value: $coffeeAmount, in: 0...10) {
+                        if coffeeAmount == 1 {
+                           Text("\(coffeeAmount) cup")
+                         }else{
+                           Text("\(coffeeAmount) cups")
+                        }
+                    }
                 }
             }
         .navigationBarTitle("BetterRest")
-            .navigationBarItems(trailing: Button(action: calculateBedTime){
+        .navigationBarItems(trailing: Button(action: calculateBedTime){
                 Text("Calculate")
-                    .alert(isPresented: $isAlertShowing) { () -> Alert in
-                        Alert(title:Text("\(alertTitle)"), message: Text("\(alertMessage)"), dismissButton: .default(Text("Cancel")))
-                }
             })
+        .alert(isPresented: $isAlertShowing) { () -> Alert in
+            Alert(title:Text("\(alertTitle)"), message: Text("\(alertMessage)"), dismissButton: .default(Text("Cancel")))
+           }
         }
     }
     
