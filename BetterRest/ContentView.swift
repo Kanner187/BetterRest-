@@ -52,7 +52,11 @@ struct ContentView: View {
                     .font(.headline)) {
                         Picker(selection: $coffeeAmount, label: Text("Cups of coffee per day")) {
                             ForEach(0..<10){
-                                Text("\($0) cups")
+                                if $0 < 2 {
+                                  Text("\($0) cup")
+                                }else{
+                                   Text("\($0) cups")
+                                }
                             }
                         }
                 }
@@ -97,7 +101,7 @@ struct ContentView: View {
     }
 }
     
-
+//Note: -Use computed variablle to complete the last challenge 
 
 
 
