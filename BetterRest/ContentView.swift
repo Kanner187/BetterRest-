@@ -64,7 +64,11 @@ struct ContentView: View {
             }
         .navigationBarTitle("BetterRest")
         .navigationBarItems(trailing: Button(action: calculateBedTime){
-                Text("Calculate")
+            Image(systemName: "clock.fill")
+                .renderingMode(.original)
+            Text("Calculate")
+                .foregroundColor(Color.black)
+                
             })
         .alert(isPresented: $isAlertShowing) { () -> Alert in
             Alert(title:Text("\(alertTitle)"), message: Text("\(alertMessage)"), dismissButton: .default(Text("Cancel")))
